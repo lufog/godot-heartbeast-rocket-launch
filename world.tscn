@@ -1,0 +1,73 @@
+[gd_scene load_steps=7 format=3 uid="uid://4x40bi1fgxmx"]
+
+[ext_resource type="Texture2D" uid="uid://3mvoynu2vcab" path="res://Rocket Launch Resources/RocketShip.png" id="1_1as5w"]
+[ext_resource type="Script" path="res://world.gd" id="1_op6hq"]
+[ext_resource type="Texture2D" uid="uid://c58mf714mthhs" path="res://Rocket Launch Resources/LaunchButton.png" id="3_ktegv"]
+
+[sub_resource type="Animation" id="Animation_6k7g8"]
+resource_name = "launch"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(640, 610), Vector2(640, -120)]
+}
+
+[sub_resource type="Animation" id="Animation_cl8si"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(640, 620)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ypr0n"]
+_data = {
+"RESET": SubResource("Animation_cl8si"),
+"launch": SubResource("Animation_6k7g8")
+}
+
+[node name="World" type="Node"]
+script = ExtResource("1_op6hq")
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.0666667, 0.0666667, 0.0666667, 1)
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(640, 620)
+scale = Vector2(2, 2)
+texture = ExtResource("1_1as5w")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ypr0n")
+}
+
+[node name="LaunchButton" type="TextureButton" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -112.0
+offset_top = -48.0
+offset_right = -64.0
+offset_bottom = -32.0
+scale = Vector2(2, 2)
+texture_normal = ExtResource("3_ktegv")
+
+[connection signal="pressed" from="LaunchButton" to="." method="_on_launch_button_pressed"]
